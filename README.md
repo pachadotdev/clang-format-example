@@ -1,12 +1,16 @@
 # Clang-format Action Example
 
-This is a minimal example showing how to use the [clang-format multi-version GitHub Action](https://github.com/pachadotdev/clang-format).
+If this project is useful to you, please consider supporting it by buying me a coffee: [![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-yellow.svg)](https://www.buymeacoffee.com/pacha)
 
 ## What this example shows
 
 - Automatic formatting of C++ code on push/PR
 - Auto-commit formatted changes back to the repository
 - Multiple workflow patterns for different use cases
+
+These are minimal examples showing how to use the [clang-format GitHub Action](https://github.com/pachadotdev/clang-format).
+
+The details on how to build the binaries locally are here: [pachadotdev/clang-format](https://github.com/pachadotdev/clang-format).
 
 ## Files in this example
 
