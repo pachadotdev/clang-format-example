@@ -51,50 +51,130 @@ When the code is properly formatted, the action will do nothing.
 
 ### `format.yml` - Minimal Auto-Formatting (⭐ Recommended)
 
-What it does: Automatically formats and commits changes on every push/PR
-
-```yaml
-- uses: pachadotdev/clang-format@v1
-  with:
-    version: '18'
-    auto-commit: true
-    commit-message: 'style: auto-format C++ code with clang-format-18'
-```
+What it does: Automatically formats and commits changes on every push/PR.
 
 - ✅ Best for: Most projects wanting automatic code formatting
 - 🔧 Behavior: Fixes code and commits back automatically
 - 📝 Triggers: Every push to main/master/develop + PRs
+  
+Copy [this](https://github.com/pachadotdev/clang-format-example/blob/main/.github/workflows/format.yml) example:
+
+```yaml
+name: Auto-format C++ Code
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+      
+      - name: Format C++ code
+        uses: pachadotdev/clang-format@main
+        with:
+          version: '18'
+          auto-commit: true
+          commit-message: 'style: auto-format C++ code with clang-format-18'
+```
 
 ### `format-pr-check.yml` - PR Validation Only
 
 What it does: Checks formatting without making changes, fails if issues found
-```yaml
-- uses: pachadotdev/clang-format@v1
-  with:
-    version: '18'
-    auto-commit: false
-    fail-on-diff: true
-```
 
 - ✅ Best for: Enforcing code style in PRs without auto-fixing
 - ❌ Behavior: Fails CI if formatting issues are detected
 - 📝 Triggers: Only on pull requests
+  
+Copy [this](https://github.com/pachadotdev/clang-format-example/blob/main/.github/workflows/format-pr-check.yml) example:
+
+```yaml
+name: PR Format Check
+
+on:
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  check-formatting:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check C++ code formatting
+        uses: pachadotdev/clang-format@v1
+        with:
+          version: '18'
+          auto-commit: false
+          fail-on-diff: true
+```
 
 ### `format-specific.yml` - Manual with Options
 
 What it does: Manual workflow with version selection and specific file targeting
 
-```yaml
-- uses: pachadotdev/clang-format@v1
-  with:
-    version: ${{ github.event.inputs.clang_version }}
-    files: 'src/*.cpp src/*.h'
-    auto-commit: true
-```
-
 - ✅ Best for: Advanced users wanting control over when/how formatting runs
 - 🎛️ Behavior: Choose clang-format version (11-19) via GitHub UI
 - 📝 Triggers: Manual dispatch only (Actions tab → Run workflow)
+  
+Copy [this](https://github.com/pachadotdev/clang-format-example/blob/main/.github/workflows/format-specific.yml) example:
+
+```yaml
+name: Format Specific Files
+
+on:
+  workflow_dispatch:
+    inputs:
+      clang_version:
+        description: 'Clang-format version to use'
+        required: true
+        default: '18'
+        type: choice
+        options:
+        - '11'
+        - '12'
+        - '13'
+        - '14'
+        - '15'
+        - '16'
+        - '17'
+        - '18'
+        - '19'
+
+permissions:
+  contents: write
+
+jobs:
+  format-specific:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+      
+      - name: Format specific C++ files
+        uses: pachadotdev/clang-format@v1
+        with:
+          version: ${{ github.event.inputs.clang_version }}
+          files: 'src/*.cpp src/*.h'
+          auto-commit: true
+          commit-message: 'style: format src/ files with clang-format-${{ github.event.inputs.clang_version }}'
+```
 
 ## Quick Start Recommendation
 
