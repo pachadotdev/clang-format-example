@@ -32,11 +32,13 @@ Note: the extension only modifies cpp and hpp files.
 
 ## How it works
 
-1. Push code with formatting issues
-2. GitHub Action runs automatically
-3. Code gets formatted with clang-format-18
-4. Changes are committed back to the repository
-5. No manual intervention needed!
+1. The user pushes a code with formatting issues
+2. GitHub Actions run on the push/PR
+3. This extension will use `clang-format-11`, `clang-format-12`, ..., or `clang-format-19` as requested to fix formatting and implement the changes in the repository
+
+When the code is properly formatted, the action will do nothing.
+
+![nodiff.png](nodiff.png "Correctly formatted files on a previous run")
 
 ## Try it yourself
 
