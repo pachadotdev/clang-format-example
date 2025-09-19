@@ -21,7 +21,8 @@ jobs:
           persist-credentials: true
       
       - name: Format C++ code
-        uses: pachadotdev/clang-format@v1.0.0
+        uses: pachadotdev/clang-format@main
         with:
-          clang-format-version: '18'
-          check-path: 'src'
+          version: '18'
+          auto-commit: true
+          commit-message: 'style: auto-format C++ code with clang-format-18'
