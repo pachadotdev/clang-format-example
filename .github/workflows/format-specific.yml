@@ -1,0 +1,41 @@
+name: Format Specific Files
+
+on:
+  workflow_dispatch:
+    inputs:
+      clang_version:
+        description: 'Clang-format version to use'
+        required: true
+        default: '18'
+        type: choice
+        options:
+        - '11'
+        - '12'
+        - '13'
+        - '14'
+        - '15'
+        - '16'
+        - '17'
+        - '18'
+        - '19'
+
+permissions:
+  contents: write
+
+jobs:
+  format-specific:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+      
+      - name: Format specific C++ files
+        uses: pachadotdev/clang-format@v1
+        with:
+          version: ${{ github.event.inputs.clang_version }}
+          files: 'src/*.cpp src/*.h'
+          auto-commit: true
+          commit-message: 'style: format src/ files with clang-format-${{ github.event.inputs.clang_version }}'

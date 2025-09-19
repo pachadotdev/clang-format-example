@@ -1,0 +1,19 @@
+name: PR Format Check
+
+on:
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  check-formatting:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check C++ code formatting
+        uses: pachadotdev/clang-format@v1
+        with:
+          version: '18'
+          auto-commit: false
+          fail-on-diff: true
