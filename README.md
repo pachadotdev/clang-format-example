@@ -115,7 +115,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Check C++ code formatting
-        uses: pachadotdev/clang-format@v1
+        uses: pachadotdev/clang-format@main
         with:
           version: '18'
           auto-commit: false
@@ -168,7 +168,7 @@ jobs:
           persist-credentials: true
       
       - name: Format specific C++ files
-        uses: pachadotdev/clang-format@v1
+        uses: pachadotdev/clang-format@main
         with:
           version: ${{ github.event.inputs.clang_version }}
           files: 'src/*.cpp src/*.h'
